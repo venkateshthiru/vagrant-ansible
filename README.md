@@ -1,4 +1,3 @@
-Write appropriate documentation in the repository to explain how someone cloning it should provision the Vagrant VM and access the web URL serving out the “Hello World”
 
 Prerequisites
 
