@@ -1,6 +1,8 @@
 FROM alpine:latest
 
-
+#setting nginx version and config parameters for nginx build and building nginx from http://nginx.org/download/nginx-1.10.3.tar.gz source
+#this will them run a make install which will install nginx 
+#remove defualt configurations since we are cpoying th configs from files
 ENV NGINX_VERSION 1.10.3
 RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 	&& CONFIG="\
@@ -112,9 +114,18 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 	&& ln -sf /dev/stdout /var/log/nginx/access.log \
 	&& ln -sf /dev/stderr /var/log/nginx/error.log
 
+
+#copying nginx.conf to container
 COPY nginx.conf /etc/nginx/nginx.conf
+
+#copying default.conf to container
 COPY nginx.vh.default.conf /etc/nginx/conf.d/default.conf
+
+#copying index.html to nginx doc root
 COPY index.html /usr/share/nginx/html/index.html
 
+#exposing port 80 to outside
 EXPOSE 80
+
+#running nginx in foreground
 CMD ["nginx", "-g", "daemon off;"]
